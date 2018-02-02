@@ -2,7 +2,7 @@ if(!$cred) { $cred = Get-Credential }
 
 $lbURL = "https://bigip1.example.local/"
 
-$name = "datalist-pni -networks"
+$name = "datalist-trusted-networks"
 $fullPath = "/Common/$name"
 
 # Get existing records
@@ -29,7 +29,7 @@ Write-Output "Current commit ID: $commitID"
 Set-Location $oldLocation
 
 $data = Get-Content "C:\GIT\F5\trust_ips.txt"
-$dataFormatted = $data -replace "host ","" -replace "network ","" -replace " := ","," | ConvertFrom-Csv -Header "name","data"
+$dataFormatted = $data | ConvertFrom-Csv -Header "name","data"
 $newRecords = @()
 foreach($line in $dataFormatted) {
 	$newRecords += "{`"name`":`"$($line.name)`",`"data`":`"$($line.data)`"}"
